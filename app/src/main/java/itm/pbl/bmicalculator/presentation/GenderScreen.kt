@@ -6,30 +6,32 @@ import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.twotone.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -92,19 +95,30 @@ fun SharedTransitionScope.GenderScreen(
             )
             Box(
                 modifier = Modifier
+                    .fillMaxSize()
+                    .background(if (targetState == 0) PrimaryBlue else PrimaryPink)
+            )
+            Box(
+                modifier = Modifier
                     .size((270 * imgScale).dp)
                     .clip(CircleShape)
-                    .background(if (targetState == 0) PrimaryBlue else PrimaryPink)
+                    .background(Color.White.copy(0.5f))
+                    .align(Alignment.Center)
             )
         }
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceBetween
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                modifier = Modifier.padding(start = 10.dp, top = 40.dp),
+                modifier = Modifier.padding(start = 10.dp, top = 50.dp),
                 text = "Select Gender",
-                style = TextStyle(fontSize = 27.sp, fontWeight = FontWeight.SemiBold)
+                style = TextStyle(
+                    fontSize = 27.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White
+                )
             )
 
             HorizontalPager(
@@ -138,69 +152,91 @@ fun SharedTransitionScope.GenderScreen(
                 )
             }
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                modifier = Modifier.fillMaxWidth().padding(start =70.dp, end = 70.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
-                TextButton(
-                    modifier = Modifier
-                        .alpha(if (pager.currentPage == 0) 1f else 0.3f)
-                        .width(150.dp)
-                        .background(
-                            PrimaryBlue.copy(0.3f), shape = CircleShape
-                        ),
-                    onClick = {
-                        coroutineScope.launch {
+                    Icon(
+                        modifier = Modifier.size(45.dp).clickable {
+                            coroutineScope.launch {
                             pager.scrollToPage(0)
                         }
-                    }, border = BorderStroke(2.dp, PrimaryBlue)
-                ) {
-                    Text(
-                        text = "Male",
-                        color = PrimaryBlue,
-                        style = TextStyle(fontSize = 27.sp, fontWeight = FontWeight.SemiBold)
+                        },
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        contentDescription = null,
+                        tint = Color.White
                     )
-                }
-                TextButton(modifier = Modifier
-                    .alpha(if (pager.currentPage == 1) 1f else 0.3f)
-                    .width(150.dp)
-                    .background(
-                        PrimaryPink.copy(0.3f), shape = CircleShape
-                    ),
-                    onClick = {
-                        coroutineScope.launch {
+
+                Text(
+                    text = if (pager.currentPage == 0) "Male" else "Female",
+                    style = TextStyle(
+                        fontSize = 27.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White
+                    )
+                )
+
+                    Icon(
+                        modifier = Modifier.size(45.dp).clickable {
+                            coroutineScope.launch {
                             pager.scrollToPage(1)
                         }
-                    }, border = BorderStroke(2.dp, PrimaryPink)
-                ) {
-                    Text(
-                        text = "Female",
-                        color = PrimaryPink,
-                        style = TextStyle(fontSize = 27.sp, fontWeight = FontWeight.SemiBold)
+                        },
+                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = null,
+                        tint = Color.White
                     )
-                }
-            }
-            Button(modifier = Modifier
-                .align(Alignment.End)
-                .padding(30.dp),
-                colors = ButtonDefaults.buttonColors(if (pager.currentPage == 1) PrimaryPink else PrimaryBlue),
-                onClick = {
-                    onClick(
-                        HeightWeightScreenRoute(
-                            resId = myResId,
-                            resKey = myResKey,
-                            height = 0,
-                            weight = 0
-                        )
-                    )
-                }
-            ) {
-                Icon(
-                    modifier = Modifier.size(45.dp),
-                    imageVector = Icons.AutoMirrored.TwoTone.ArrowForward, contentDescription = null
-                )
             }
 
+            Spacer(modifier = Modifier.weight(1f))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.End
+            ) {
+                Button(modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(start = 10.dp, end = 10.dp, bottom = 30.dp),
+                    colors = ButtonDefaults.buttonColors(Color.White.copy(0.5f)),
+                    onClick = {}
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Info,
+                        contentDescription = null
+                    )
+                }
+
+                Button(modifier = Modifier
+                    .fillMaxHeight()
+                    .fillMaxWidth()
+                    .padding(start = 10.dp, end = 10.dp, bottom = 30.dp),
+                    colors = ButtonDefaults.buttonColors(Color.White),
+                    onClick = {
+                        onClick(
+                            HeightWeightScreenRoute(
+                                resId = myResId,
+                                resKey = myResKey,
+                                height = 0,
+                                weight = 0
+                            )
+                        )
+                    }
+                ) {
+                    Text(
+                        modifier = Modifier,
+                        text = "Next",
+                        style = TextStyle(
+                            fontSize = 27.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = if (pager.currentPage == 0) PrimaryBlue else PrimaryPink
+                        )
+                    )
+
+                }
+            }
         }
 
     }

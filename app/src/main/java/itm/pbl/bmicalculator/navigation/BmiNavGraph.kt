@@ -7,9 +7,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import itm.pbl.bmicalculator.presentation.GenderScreen
 import itm.pbl.bmicalculator.presentation.HeightWeightScreen
 import itm.pbl.bmicalculator.presentation.ResultScreen
+import itm.pbl.bmicalculator.presentation.myHeight
+import itm.pbl.bmicalculator.presentation.myResId
+import itm.pbl.bmicalculator.presentation.myResKey
+import itm.pbl.bmicalculator.presentation.myWeight
 import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalSharedTransitionApi::class)
@@ -23,19 +28,29 @@ fun BmiNavGraph(
             startDestination = GenderScreenRoute
         ) {
             composable<GenderScreenRoute> {
-                GenderScreen(animatedVisibilityScope = this) {
-                    navController.navigate(HeightWeightScreenRoute)
+                GenderScreen(animatedVisibilityScope = this) { route ->
+                    navController.navigate(route)
                 }
             }
 
             composable<HeightWeightScreenRoute> {
-                HeightWeightScreen() {
+                val data = it.toRoute<HeightWeightScreenRoute>()
+                HeightWeightScreen(
+                    animatedVisibilityScope = this,
+                    data,
+                    navController
+                ) {
                     navController.navigate(ResultScreenRoute)
                 }
             }
 
             composable<ResultScreenRoute> {
-                ResultScreen()
+                val data = HeightWeightScreenRoute(myResId, myResKey, myHeight, myWeight)
+                ResultScreen(
+                    animatedVisibilityScope = this,
+                    data,
+                    navController
+                )
             }
         }
     }
