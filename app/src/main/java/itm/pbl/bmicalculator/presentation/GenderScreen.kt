@@ -18,20 +18,16 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -42,30 +38,24 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import itm.pbl.bmicalculator.R
 import itm.pbl.bmicalculator.navigation.HeightWeightScreenRoute
 import itm.pbl.bmicalculator.ui.theme.PrimaryBlue
 import itm.pbl.bmicalculator.ui.theme.PrimaryPink
+import itm.pbl.bmicalculator.utils.BottomButtons
+import itm.pbl.bmicalculator.utils.CustomText
 import kotlinx.coroutines.launch
 
 val genders = listOf(
-    HeightWeightScreenRoute(R.drawable.men, "Male", 0, 0),
-    HeightWeightScreenRoute(R.drawable.women, "Female", 0, 0),
+    HeightWeightScreenRoute(R.drawable.men, "Male"),
+    HeightWeightScreenRoute(R.drawable.women, "Female"),
 )
-
-// Temporary
-var myResId = R.drawable.men
-var myResKey = "Male"
-var myHeight = 0
-var myWeight = 0
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SharedTransitionScope.GenderScreen(
+    innerPaddingValues: PaddingValues,
     animatedVisibilityScope: AnimatedVisibilityScope,
     onClick: (HeightWeightScreenRoute) -> Unit
 ) {
@@ -78,8 +68,6 @@ fun SharedTransitionScope.GenderScreen(
     )
 
     Box(
-        modifier = Modifier
-            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Crossfade(
@@ -102,24 +90,16 @@ fun SharedTransitionScope.GenderScreen(
                 modifier = Modifier
                     .size((270 * imgScale).dp)
                     .clip(CircleShape)
-                    .background(Color.White.copy(0.5f))
+                    .background(Color.White.copy(0.2f))
                     .align(Alignment.Center)
             )
         }
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().padding(innerPaddingValues),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                modifier = Modifier.padding(start = 10.dp, top = 50.dp),
-                text = "Select Gender",
-                style = TextStyle(
-                    fontSize = 27.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-            )
+            CustomText(text = "Select Gender")
 
             HorizontalPager(
                 modifier = Modifier
@@ -128,9 +108,6 @@ fun SharedTransitionScope.GenderScreen(
                 state = pager,
                 contentPadding = PaddingValues(100.dp),
             ) { index ->
-                myResId = genders[pager.currentPage].resId
-                myResKey = genders[pager.currentPage].resKey
-
                 val imgScale by animateFloatAsState(
                     animationSpec = tween(500),
                     targetValue = if (index == pager.currentPage) 2f else 1f,
@@ -139,9 +116,7 @@ fun SharedTransitionScope.GenderScreen(
                 Image(
                     modifier = Modifier
                         .sharedElement(
-                            state = rememberSharedContentState(
-                                key = genders[index].resId
-                            ),
+                            state = rememberSharedContentState(key = genders[index].resKey),
                             animatedVisibilityScope = animatedVisibilityScope
                         )
                         .size(200.dp)
@@ -163,19 +138,12 @@ fun SharedTransitionScope.GenderScreen(
                             pager.scrollToPage(0)
                         }
                         },
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                        imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                         contentDescription = null,
                         tint = Color.White
                     )
 
-                Text(
-                    text = if (pager.currentPage == 0) "Male" else "Female",
-                    style = TextStyle(
-                        fontSize = 27.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
-                )
+                CustomText(text = if (pager.currentPage == 0) "Male" else "Female")
 
                     Icon(
                         modifier = Modifier.size(45.dp).clickable {
@@ -183,62 +151,27 @@ fun SharedTransitionScope.GenderScreen(
                             pager.scrollToPage(1)
                         }
                         },
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
                         contentDescription = null,
                         tint = Color.White
                     )
             }
 
             Spacer(modifier = Modifier.weight(1f))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(100.dp),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.End
-            ) {
-                Button(modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(start = 10.dp, end = 10.dp, bottom = 30.dp),
-                    colors = ButtonDefaults.buttonColors(Color.White.copy(0.5f)),
-                    onClick = {}
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        contentDescription = null
-                    )
-                }
-
-                Button(modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth()
-                    .padding(start = 10.dp, end = 10.dp, bottom = 30.dp),
-                    colors = ButtonDefaults.buttonColors(Color.White),
-                    onClick = {
-                        onClick(
-                            HeightWeightScreenRoute(
-                                resId = myResId,
-                                resKey = myResKey,
-                                height = 0,
-                                weight = 0
-                            )
-                        )
-                    }
-                ) {
-                    Text(
-                        modifier = Modifier,
-                        text = "Next",
-                        style = TextStyle(
-                            fontSize = 27.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = if (pager.currentPage == 0) PrimaryBlue else PrimaryPink
+            BottomButtons(
+                imageVector = Icons.Outlined.Info,
+                color = if (pager.currentPage == 0) PrimaryBlue else PrimaryPink,
+                onClickIcon = {},
+                onClickBtn = {
+                    onClick(
+                        HeightWeightScreenRoute(
+                            resId = genders[pager.currentPage].resId,
+                            resKey = genders[pager.currentPage].resKey,
                         )
                     )
-
                 }
-            }
+            )
         }
-
     }
 }
 

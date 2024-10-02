@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import itm.pbl.bmicalculator.navigation.BmiNavGraph
 import itm.pbl.bmicalculator.ui.theme.BMICalculatorTheme
@@ -15,7 +18,12 @@ class MainActivity : ComponentActivity() {
         setContent {
             BMICalculatorTheme {
                 val navController = rememberNavController()
-                BmiNavGraph(navController = navController)
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    BmiNavGraph(
+                        navController = navController,
+                        innerPadding = innerPadding
+                    )
+                }
             }
         }
     }
