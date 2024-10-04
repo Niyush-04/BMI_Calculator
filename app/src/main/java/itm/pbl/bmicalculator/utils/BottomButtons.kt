@@ -2,10 +2,10 @@ package itm.pbl.bmicalculator.utils
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
@@ -34,22 +34,22 @@ fun BottomButtons(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+
         Button(
-            modifier = Modifier.fillMaxWidth(0.2f).aspectRatio(1f),
+            modifier = Modifier.fillMaxWidth(0.2f),
             shape = CircleShape,
             colors = ButtonDefaults.buttonColors(Color.White.copy(0.5f)),
             onClick = onClickIcon
         ) {
             Icon(
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier.size(40.dp),
                 imageVector = imageVector,
                 contentDescription = null
             )
         }
-
+        Spacer(modifier = Modifier.size(10.dp))
         Button(
-            modifier = Modifier
-                .fillMaxWidth(0.9f),
+            modifier = Modifier.weight(1f),
             colors = ButtonDefaults.buttonColors(Color.White),
             onClick = onClickBtn
         ) {

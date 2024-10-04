@@ -1,6 +1,5 @@
 package itm.pbl.bmicalculator.navigation
 
-import androidx.annotation.DrawableRes
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,10 +8,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
+import itm.pbl.bmicalculator.data.GenderScreenRoute
+import itm.pbl.bmicalculator.data.HeightWeightScreenRoute
+import itm.pbl.bmicalculator.data.ResultScreenRoute
 import itm.pbl.bmicalculator.presentation.GenderScreen
 import itm.pbl.bmicalculator.presentation.HeightWeightScreen
 import itm.pbl.bmicalculator.presentation.ResultScreen
-import kotlinx.serialization.Serializable
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -28,7 +29,7 @@ fun BmiNavGraph(
             composable<GenderScreenRoute> {
                 GenderScreen(
                     innerPaddingValues = innerPadding,
-                    animatedVisibilityScope = this,
+                    animatedVisibilityScope = this@composable,
                 ) { route ->
                     navController.navigate(route)
                 }
@@ -38,7 +39,7 @@ fun BmiNavGraph(
                 val data = it.toRoute<HeightWeightScreenRoute>()
                 HeightWeightScreen(
                     innerPaddingValues = innerPadding,
-                    animatedVisibilityScope = this,
+                    animatedVisibilityScope = this@composable,
                     data,
                     navController
                 ) { route ->
@@ -50,7 +51,7 @@ fun BmiNavGraph(
                 val data = it.toRoute<ResultScreenRoute>()
                 ResultScreen(
                     innerPaddingValues = innerPadding,
-                    animatedVisibilityScope = this,
+                    animatedVisibilityScope = this@composable,
                     data,
                     navController
                 )
@@ -58,21 +59,3 @@ fun BmiNavGraph(
         }
     }
 }
-
-@Serializable
-object GenderScreenRoute
-
-@Serializable
-data class HeightWeightScreenRoute(
-    @DrawableRes
-    val resId: Int,
-    val resKey: String
-)
-
-@Serializable
-data class ResultScreenRoute(
-    val resId: Int,
-    val resKey: String,
-    val bmiScore: Float,
-    val bmiResult: String
-)
