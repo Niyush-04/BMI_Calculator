@@ -1,4 +1,4 @@
-package itm.pbl.bmicalculator.presentation
+package itm.pbl.bmicalculator.presentation.viewmodel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableFloatStateOf

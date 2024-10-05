@@ -36,7 +36,7 @@ fun BottomButtons(
     ) {
 
         Button(
-            modifier = Modifier.fillMaxWidth(0.2f),
+            modifier = Modifier.weight(0.2f),
             shape = CircleShape,
             colors = ButtonDefaults.buttonColors(Color.White.copy(0.5f)),
             onClick = onClickIcon
@@ -44,12 +44,12 @@ fun BottomButtons(
             Icon(
                 modifier = Modifier.size(40.dp),
                 imageVector = imageVector,
-                contentDescription = null
+                contentDescription = "Navigate Back"
             )
         }
         Spacer(modifier = Modifier.size(10.dp))
         Button(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(0.8f),
             colors = ButtonDefaults.buttonColors(Color.White),
             onClick = onClickBtn
         ) {

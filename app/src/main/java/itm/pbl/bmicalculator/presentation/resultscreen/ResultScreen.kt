@@ -1,4 +1,4 @@
-package itm.pbl.bmicalculator.presentation
+package itm.pbl.bmicalculator.presentation.resultscreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope

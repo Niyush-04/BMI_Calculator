@@ -19,7 +19,8 @@ fun CustomText(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = Color.White,
-    fontSize: TextUnit = 27.sp
+    fontSize: TextUnit = 27.sp,
+    fontWeight: FontWeight = FontWeight.Bold
 ) {
     val customFontFamily = FontFamily(
         Font(R.font.customfont, FontWeight.Bold, FontStyle.Normal)
@@ -30,6 +31,7 @@ fun CustomText(
         style = TextStyle(
             fontSize = fontSize,
             fontFamily = customFontFamily,
+            fontWeight = fontWeight,
             color = color
         ),
         textAlign = TextAlign.Center

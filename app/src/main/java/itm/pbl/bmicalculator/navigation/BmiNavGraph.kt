@@ -11,9 +11,9 @@ import androidx.navigation.toRoute
 import itm.pbl.bmicalculator.data.GenderScreenRoute
 import itm.pbl.bmicalculator.data.HeightWeightScreenRoute
 import itm.pbl.bmicalculator.data.ResultScreenRoute
-import itm.pbl.bmicalculator.presentation.GenderScreen
-import itm.pbl.bmicalculator.presentation.HeightWeightScreen
-import itm.pbl.bmicalculator.presentation.ResultScreen
+import itm.pbl.bmicalculator.presentation.genderscreen.GenderScreen
+import itm.pbl.bmicalculator.presentation.heightweightscreen.HeightWeightScreen
+import itm.pbl.bmicalculator.presentation.resultscreen.ResultScreen
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
