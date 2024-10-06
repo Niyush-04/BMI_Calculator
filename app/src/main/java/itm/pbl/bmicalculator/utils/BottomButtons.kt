@@ -44,7 +44,8 @@ fun BottomButtons(
             Icon(
                 modifier = Modifier.size(40.dp),
                 imageVector = imageVector,
-                contentDescription = "Navigate Back"
+                contentDescription = "Navigate Back",
+                tint = Color.White
             )
         }
         Spacer(modifier = Modifier.size(10.dp))

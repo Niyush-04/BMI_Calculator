@@ -143,7 +143,7 @@ fun SharedTransitionScope.GenderScreen(
             imageVector = Icons.Outlined.Info,
             color = bgColor,
             onClickIcon = {
-                Toast.makeText(context, "coming soon", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "coming soon", Toast.LENGTH_SHORT).show()
             },
             onClickBtn = {
                 onClick(
