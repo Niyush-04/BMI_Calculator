@@ -1,5 +1,6 @@
 package itm.pbl.bmicalculator.presentation.resultscreen
 
+import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
@@ -25,9 +26,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Slider
@@ -39,11 +38,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -74,6 +72,8 @@ fun SharedTransitionScope.ResultScreen(
     navController: NavController
 ) {
 
+    val bmi = String.format(Locale.US, "%.2f", data.bmiScore)
+
     val buttonColor = if (data.resId == R.drawable.men) PrimaryBlue else PrimaryPink
 
     val composition by rememberLottieComposition(
@@ -93,6 +93,22 @@ fun SharedTransitionScope.ResultScreen(
         targetValue = if (progress == 1f) 1.2f else 1f,
         label = ""
     )
+
+    val sendIntent = Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT,
+            "I just calculated my BMI, and it’s $bmi based on my height (${data.height} cm) and weight (${data.weight} kg).\n" +
+                    "That puts me in the '${data.bmiResult}' category.\n" +
+                    "\n" +
+                    "Have you checked your BMI recently?\n" +
+                    "Let’s stay on top of our health together!"
+        )
+        type = "text/plain"
+    }
+
+    val context = LocalContext.current
+    val shareIntent = Intent.createChooser(sendIntent, null)
 
     Column(
         modifier = Modifier
@@ -131,7 +147,8 @@ fun SharedTransitionScope.ResultScreen(
                 )
             }
 
-            Column(modifier = Modifier.fillMaxSize(),
+            Column(
+                modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Bottom,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -173,7 +190,7 @@ fun SharedTransitionScope.ResultScreen(
                     ) {
 
                         CustomText(
-                            text = String.format(Locale.US, "%.2f", data.bmiScore),
+                            text = bmi,
                             fontSize = 50.sp
                         )
                         GradientSlider(data.bmiScore)
@@ -195,7 +212,9 @@ fun SharedTransitionScope.ResultScreen(
             text = "Share",
             color = buttonColor,
             onClickIcon = { navController.popBackStack() },
-            onClickBtn = { }
+            onClickBtn = {
+                context.startActivity(shareIntent)
+            }
         )
     }
 }
@@ -245,16 +264,19 @@ fun GradientSlider(pos: Float) {
 }
 
 @Composable
-fun BmiInfo(text:String, color: Color) {
-    Row(modifier = Modifier.fillMaxWidth()
-        .padding(start = 15.dp, end = 10.dp, top = 5.dp, bottom = 5.dp),
+fun BmiInfo(text: String, color: Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 15.dp, end = 10.dp, top = 5.dp, bottom = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
         HorizontalDivider(
             modifier = Modifier.width(10.dp),
             color = color,
-            thickness = 10.dp)
+            thickness = 10.dp
+        )
         CustomText(text = text, fontSize = 15.sp)
     }
 

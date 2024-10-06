@@ -18,6 +18,8 @@ data class HeightWeightScreenRoute(
 data class ResultScreenRoute(
     val resId: Int,
     val resKey: String,
+    val height: Int,
+    val weight: Int,
     val bmiScore: Float,
     val bmiResult: String
 )

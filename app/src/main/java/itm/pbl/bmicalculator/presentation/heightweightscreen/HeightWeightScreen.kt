@@ -81,6 +81,8 @@ fun SharedTransitionScope.HeightWeightScreen(
                     ResultScreenRoute(
                         resId = genderRoute.resId,
                         resKey = genderRoute.resKey,
+                        height = viewModel.height,
+                        weight = viewModel.weight,
                         bmiScore = viewModel.bmiScore(),
                         bmiResult = viewModel.bmiResult()
                     )
