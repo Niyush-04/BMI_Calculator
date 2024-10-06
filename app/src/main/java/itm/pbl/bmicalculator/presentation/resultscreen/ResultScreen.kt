@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -177,7 +178,7 @@ fun SharedTransitionScope.ResultScreen(
                                     5.dp,
                                     brush = Brush.verticalGradient(
                                         colors = listOf(
-                                            buttonColor,
+                                            Color.Transparent,
                                             Color.White.copy(0.8f)
                                         )
                                     )
@@ -193,6 +194,9 @@ fun SharedTransitionScope.ResultScreen(
                             text = bmi,
                             fontSize = 50.sp
                         )
+
+                        HeightWeightInfo(height = data.height, weight = data.weight)
+
                         GradientSlider(data.bmiScore)
 
                         CustomText(text = data.bmiResult)
@@ -280,4 +284,20 @@ fun BmiInfo(text: String, color: Color) {
         CustomText(text = text, fontSize = 15.sp)
     }
 
+}
+
+@Composable
+fun HeightWeightInfo(height: Int, weight: Int) {
+    Row(modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        CustomText(text = "height: $height cm", fontSize = 15.sp)
+        HorizontalDivider(modifier = Modifier.rotate(270f).width(15.dp),
+            color = Color.White,
+            thickness = 2.dp
+        )
+        CustomText(text = "weight: $weight kg", fontSize = 15.sp)
+
+    }
 }

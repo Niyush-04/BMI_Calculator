@@ -1,6 +1,5 @@
 package itm.pbl.bmicalculator.presentation.genderscreen
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalSharedTransitionApi
 import androidx.compose.animation.SharedTransitionScope
@@ -51,17 +50,14 @@ fun SharedTransitionScope.GenderScreen(
     animatedVisibilityScope: AnimatedVisibilityScope,
     onClick: (HeightWeightScreenRoute) -> Unit
 ) {
+
     val coroutineScope = rememberCoroutineScope()
 
-    val pager = rememberPagerState(
-        initialPage = 0,
-        initialPageOffsetFraction = 0f,
-        pageCount = { genders.size }
-    )
+    val pagerState = rememberPagerState( pageCount = { genders.size } )
 
     val bgColor by animateColorAsState(
-        targetValue = if (pager.currentPage == 0) PrimaryBlue else PrimaryPink,
-        label = "",
+        targetValue = if (pagerState.currentPage == 0) PrimaryBlue else PrimaryPink,
+        label = "Background Color",
         animationSpec = tween(500)
     )
 
@@ -79,11 +75,11 @@ fun SharedTransitionScope.GenderScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(0.6f),
-            state = pager,
+            state = pagerState,
             contentPadding = PaddingValues(120.dp)
         ) { index ->
             val imgScale by animateFloatAsState(
-                targetValue = if (index == pager.currentPage) 2f else 1f,
+                targetValue = if (index == pagerState.currentPage) 2f else 1f,
                 animationSpec = tween(500),
                 label = ""
             )
@@ -99,14 +95,13 @@ fun SharedTransitionScope.GenderScreen(
                     .graphicsLayer(
                         scaleX = imgScale,
                         scaleY = imgScale,
-                        alpha = if (pager.currentPage == index) 1f else 0.5f
+                        alpha = if (pagerState.currentPage == index) 1f else 0.5f
                     )
             )
         }
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 70.dp, end = 70.dp),
+                .fillMaxWidth(0.7f),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -115,7 +110,7 @@ fun SharedTransitionScope.GenderScreen(
                     .size(45.dp)
                     .clickable {
                         coroutineScope.launch {
-                            pager.scrollToPage(0)
+                            pagerState.scrollToPage(0)
                         }
                     },
                 imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
@@ -123,14 +118,14 @@ fun SharedTransitionScope.GenderScreen(
                 tint = Color.White
             )
 
-            CustomText(text = if (pager.currentPage == 0) "Male" else "Female")
+            CustomText(text = genders[pagerState.currentPage].resKey)
 
             Icon(
                 modifier = Modifier
                     .size(45.dp)
                     .clickable {
                         coroutineScope.launch {
-                            pager.scrollToPage(1)
+                            pagerState.scrollToPage(1)
                         }
                     },
                 imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
@@ -148,8 +143,8 @@ fun SharedTransitionScope.GenderScreen(
             onClickBtn = {
                 onClick(
                     HeightWeightScreenRoute(
-                        resId = genders[pager.currentPage].resId,
-                        resKey = genders[pager.currentPage].resKey,
+                        resId = genders[pagerState.currentPage].resId,
+                        resKey = genders[pagerState.currentPage].resKey,
                     )
                 )
             }
