@@ -28,6 +28,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Share
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
@@ -119,7 +121,7 @@ fun SharedTransitionScope.ResultScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CustomText(text = "Your BMI is", modifier = Modifier.padding(10.dp))
+        CustomText(text = "Your BMI is")
 
 
         Box(
@@ -218,7 +220,8 @@ fun SharedTransitionScope.ResultScreen(
             onClickIcon = { navController.popBackStack() },
             onClickBtn = {
                 context.startActivity(shareIntent)
-            }
+            },
+            imageVector = Icons.Rounded.Share
         )
     }
 }

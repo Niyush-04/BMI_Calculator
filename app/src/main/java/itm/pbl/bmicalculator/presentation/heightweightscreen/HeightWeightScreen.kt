@@ -50,7 +50,7 @@ fun SharedTransitionScope.HeightWeightScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CustomText(text = "Select Height & Weight", modifier = Modifier.padding(10.dp))
+        CustomText(text = "Select Height & Weight")
 
         HeightAndWeightColumn(
             genderRoute,

@@ -1,5 +1,7 @@
 package itm.pbl.bmicalculator.utils
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -21,40 +24,45 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun BottomButtons(
-    imageVector: ImageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
+    imageVector: ImageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
     text: String = "Next",
     color: Color,
     onClickIcon: () -> Unit,
-    onClickBtn: () -> Unit
+    onClickBtn: () -> Unit,
+    enable: Boolean = true
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp),
+            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-
-        Button(
-            modifier = Modifier.weight(0.2f),
-            shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(Color.White.copy(0.5f)),
-            onClick = onClickIcon
-        ) {
+        if (enable) {
             Icon(
-                modifier = Modifier.size(40.dp),
-                imageVector = imageVector,
+                modifier = Modifier
+                    .size(60.dp)
+                    .background(color = Color.White.copy(0.3f), shape = CircleShape)
+                    .clickable(onClick = onClickIcon),
+                imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowLeft,
                 contentDescription = "Navigate Back",
                 tint = Color.White
             )
         }
-        Spacer(modifier = Modifier.size(10.dp))
         Button(
-            modifier = Modifier.weight(0.8f),
+            modifier = Modifier.fillMaxWidth(if (enable) 0.8f else 1f),
             colors = ButtonDefaults.buttonColors(Color.White),
             onClick = onClickBtn
         ) {
+            Spacer(modifier = Modifier.weight(0.6f))
             CustomText(text = text, color = color)
+            Spacer(modifier = Modifier.weight(0.4f))
+            Icon(
+                modifier = Modifier.size(45.dp),
+                imageVector = imageVector,
+                contentDescription = "Navigation Forward",
+                tint = color
+            )
         }
     }
 }

@@ -20,19 +20,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import itm.pbl.bmicalculator.data.HeightWeightScreenRoute
@@ -53,7 +53,7 @@ fun SharedTransitionScope.GenderScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
-    val pagerState = rememberPagerState( pageCount = { genders.size } )
+    val pagerState = rememberPagerState(pageCount = { genders.size })
 
     val bgColor by animateColorAsState(
         targetValue = if (pagerState.currentPage == 0) PrimaryBlue else PrimaryPink,
@@ -69,17 +69,17 @@ fun SharedTransitionScope.GenderScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CustomText(text = "Select Gender", modifier = Modifier.padding(10.dp))
+        CustomText(text = "Select Gender")
 
         HorizontalPager(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.6f),
+                .fillMaxHeight(0.7f),
             state = pagerState,
-            contentPadding = PaddingValues(120.dp)
+            contentPadding = PaddingValues(horizontal = 120.dp)
         ) { index ->
             val imgScale by animateFloatAsState(
-                targetValue = if (index == pagerState.currentPage) 2f else 1f,
+                targetValue = if (index == pagerState.currentPage) 1.3f else 0.5f,
                 animationSpec = tween(500),
                 label = ""
             )
@@ -89,9 +89,9 @@ fun SharedTransitionScope.GenderScreen(
                 modifier = Modifier
                     .sharedElement(
                         state = rememberSharedContentState(key = genders[index].resKey),
-                        animatedVisibilityScope = animatedVisibilityScope
+                        animatedVisibilityScope = animatedVisibilityScope,
+                        boundsTransform = imageBoundsTransform
                     )
-                    .size(200.dp)
                     .graphicsLayer(
                         scaleX = imgScale,
                         scaleY = imgScale,
@@ -108,6 +108,7 @@ fun SharedTransitionScope.GenderScreen(
             Icon(
                 modifier = Modifier
                     .size(45.dp)
+                    .background(color = Color.White.copy(0.3f), shape = CircleShape)
                     .clickable {
                         coroutineScope.launch {
                             pagerState.scrollToPage(0)
@@ -123,6 +124,7 @@ fun SharedTransitionScope.GenderScreen(
             Icon(
                 modifier = Modifier
                     .size(45.dp)
+                    .background(color = Color.White.copy(0.3f), shape = CircleShape)
                     .clickable {
                         coroutineScope.launch {
                             pagerState.scrollToPage(1)
@@ -133,21 +135,22 @@ fun SharedTransitionScope.GenderScreen(
                 tint = Color.White
             )
         }
-        val context = LocalContext.current
         BottomButtons(
-            imageVector = Icons.Outlined.Info,
+            enable = false,
             color = bgColor,
-            onClickIcon = {
-//                Toast.makeText(context, "coming soon", Toast.LENGTH_SHORT).show()
-            },
+            onClickIcon = {},
             onClickBtn = {
                 onClick(
                     HeightWeightScreenRoute(
                         resId = genders[pagerState.currentPage].resId,
-                        resKey = genders[pagerState.currentPage].resKey,
+                        resKey = genders[pagerState.currentPage].resKey
                     )
                 )
             }
         )
     }
+}
+
+val imageBoundsTransform = { _: Rect, _: Rect ->
+    tween<Rect>(durationMillis = 500)
 }

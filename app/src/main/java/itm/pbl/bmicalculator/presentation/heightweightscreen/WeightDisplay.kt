@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import itm.pbl.bmicalculator.R
 import itm.pbl.bmicalculator.presentation.viewmodel.BmiViewModel
 import itm.pbl.bmicalculator.utils.CustomText
@@ -29,7 +30,8 @@ fun WeightDisplay(viewModel: BmiViewModel) {
 
         CustomText(
             modifier = Modifier.width(150.dp),
-            text = "${viewModel.weight} kg"
+            text = "${viewModel.weight} kg",
+            fontSize = 27.sp
         )
     }
 }

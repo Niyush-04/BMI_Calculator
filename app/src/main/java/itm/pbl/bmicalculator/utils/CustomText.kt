@@ -19,7 +19,7 @@ fun CustomText(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = Color.White,
-    fontSize: TextUnit = 27.sp,
+    fontSize: TextUnit = 32.sp,
     fontWeight: FontWeight = FontWeight.Bold
 ) {
     val customFontFamily = FontFamily(
