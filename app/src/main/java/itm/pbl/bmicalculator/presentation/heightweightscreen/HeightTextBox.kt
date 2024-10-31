@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import itm.pbl.bmicalculator.presentation.viewmodel.BmiViewModel
@@ -33,7 +34,8 @@ fun HeightTextBox(viewModel: BmiViewModel) {
                 )
                 .padding(7.dp),
             text = "${viewModel.height} cm",
-            fontSize = 24.sp
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
         )
 
         HorizontalDivider(thickness = 2.dp, color = Color.White)

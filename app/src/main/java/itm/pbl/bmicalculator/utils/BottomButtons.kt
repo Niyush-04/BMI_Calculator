@@ -20,12 +20,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import itm.pbl.bmicalculator.R
 
 @Composable
 fun BottomButtons(
     imageVector: ImageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
-    text: String = "Next",
+    text: String = stringResource(R.string.next),
     color: Color,
     onClickIcon: () -> Unit,
     onClickBtn: () -> Unit,

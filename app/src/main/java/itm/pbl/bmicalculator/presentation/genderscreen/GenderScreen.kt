@@ -34,6 +34,8 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import itm.pbl.bmicalculator.data.HeightWeightScreenRoute
 import itm.pbl.bmicalculator.data.genders
@@ -42,6 +44,7 @@ import itm.pbl.bmicalculator.ui.theme.PrimaryPink
 import itm.pbl.bmicalculator.utils.BottomButtons
 import itm.pbl.bmicalculator.utils.CustomText
 import kotlinx.coroutines.launch
+import itm.pbl.bmicalculator.R
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
@@ -69,8 +72,7 @@ fun SharedTransitionScope.GenderScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CustomText(text = "Select Gender")
-
+        CustomText(text = stringResource(R.string.select_gender), fontWeight = FontWeight.ExtraBold)
         HorizontalPager(
             modifier = Modifier
                 .fillMaxWidth()
@@ -119,7 +121,7 @@ fun SharedTransitionScope.GenderScreen(
                 tint = Color.White
             )
 
-            CustomText(text = genders[pagerState.currentPage].resKey)
+            CustomText(text = genders[pagerState.currentPage].resKey, fontWeight = FontWeight.Bold)
 
             Icon(
                 modifier = Modifier
@@ -151,6 +153,6 @@ fun SharedTransitionScope.GenderScreen(
     }
 }
 
-val imageBoundsTransform = { _: Rect, _: Rect ->
+private val imageBoundsTransform = { _: Rect, _: Rect ->
     tween<Rect>(durationMillis = 500)
 }

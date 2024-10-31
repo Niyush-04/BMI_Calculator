@@ -35,7 +35,7 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,6 +46,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -121,8 +123,7 @@ fun SharedTransitionScope.ResultScreen(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CustomText(text = "Your BMI is")
-
+        CustomText(text = stringResource(R.string.your_bmi_is), fontWeight = FontWeight.ExtraBold)
 
         Box(
             modifier = Modifier
@@ -194,14 +195,15 @@ fun SharedTransitionScope.ResultScreen(
 
                         CustomText(
                             text = bmi,
-                            fontSize = 50.sp
+                            fontSize = 50.sp,
+                            fontWeight = FontWeight.Black
                         )
 
                         HeightWeightInfo(height = data.height, weight = data.weight)
 
                         GradientSlider(data.bmiScore)
 
-                        CustomText(text = data.bmiResult)
+                        CustomText(text = data.bmiResult, fontWeight = FontWeight.Bold)
                         BmiInfo(text = "  Below 18.5: Underweight", color = Blue)
                         BmiInfo(text = "  18.5-24.9: Healthy Weight", color = Green)
                         BmiInfo(text = "  25-29.9: Overweight", color = Yellow)
@@ -215,7 +217,7 @@ fun SharedTransitionScope.ResultScreen(
         }
 
         BottomButtons(
-            text = "Share",
+            text = stringResource(R.string.share),
             color = buttonColor,
             onClickIcon = { navController.popBackStack() },
             onClickBtn = {
@@ -229,7 +231,7 @@ fun SharedTransitionScope.ResultScreen(
 
 @Composable
 fun GradientSlider(pos: Float) {
-    var sliderPosition by remember { mutableStateOf(pos) }
+    var sliderPosition by remember { mutableFloatStateOf(pos) }
 
     Column(
         modifier = Modifier
@@ -295,12 +297,12 @@ fun HeightWeightInfo(height: Int, weight: Int) {
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        CustomText(text = "height: $height cm", fontSize = 15.sp)
+        CustomText(text = "height: $height cm", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
         HorizontalDivider(modifier = Modifier.rotate(270f).width(15.dp),
             color = Color.White,
             thickness = 2.dp
         )
-        CustomText(text = "weight: $weight kg", fontSize = 15.sp)
+        CustomText(text = "weight: $weight kg", fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
 
     }
 }

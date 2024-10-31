@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
@@ -20,17 +19,21 @@ fun CustomText(
     text: String,
     color: Color = Color.White,
     fontSize: TextUnit = 32.sp,
-    fontWeight: FontWeight = FontWeight.Bold
+    fontWeight: FontWeight = FontWeight.Normal
 ) {
-    val customFontFamily = FontFamily(
-        Font(R.font.customfont, FontWeight.Bold, FontStyle.Normal)
+    val nunitoFontFamily = FontFamily(
+        Font(R.font.nunito_black, FontWeight.Black),
+        Font(R.font.nunito_bold, FontWeight.Bold),
+        Font(R.font.nunito_extra_bold, FontWeight.ExtraBold),
+        Font(R.font.nunito_regular, FontWeight.Normal),
+        Font(R.font.nunito_semi_bold, FontWeight.SemiBold)
     )
     Text(
         modifier = modifier,
         text = text,
         style = TextStyle(
             fontSize = fontSize,
-            fontFamily = customFontFamily,
+            fontFamily = nunitoFontFamily,
             fontWeight = fontWeight,
             color = color
         ),
